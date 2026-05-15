@@ -59,7 +59,7 @@ export default function PropertyCard({ property }) {
               </span>
             </div>
           </div>
-          <Link to={`properties/${property.uuid}`} className="w-full md:w-auto px-10 py-3 border border-accent-gold text-accent-gold text-[10px] font-medium tracking-[0.2em] hover:bg-accent-gold hover:text-white transition-all uppercase">
+          <Link to={`${property.uuid}`} className="w-full md:w-auto px-10 py-3 border border-accent-gold text-accent-gold text-[10px] font-medium tracking-[0.2em] hover:bg-accent-gold hover:text-white transition-all uppercase">
             VIEW DETAILS
           </Link>
         </div>

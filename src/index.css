@@ -76,7 +76,6 @@ body {
 }
 
 @theme {
-
   /* Surface & Background */
   --color-surface: #fbf9f7;
   --color-surface-dim: #dcd9d8;
@@ -96,7 +95,7 @@ body {
   --color-on-surface: #1b1c1b;
   --color-on-surface-variant: #434846;
   --color-on-background: #1b1c1b;
-  
+
   /* Inverse Actions */
   --color-inverse-surface: #303030;
   --color-inverse-on-surface: #f3f0ef;
@@ -109,7 +108,7 @@ body {
   --spacing-nav-spacing: 40px;
   --spacing-margin-edge: 64px;
   --spacing-gutter: 32px;
-  
+
   --color-primary-dark: #1a2421;
   --color-accent-gold: #c5a059;
   --color-secondary-cream: #f4f1ea;
@@ -203,4 +202,14 @@ body {
 
 .gallery-img:nth-child(3) {
   animation-delay: 8s;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #c5a059;
 }
