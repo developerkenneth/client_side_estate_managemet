@@ -5,23 +5,38 @@ import { useEffect, useState } from "react";
 import { formatPrice } from "../utils/formatPrice";
 import NotFound from "./NotFound";
 import Loading from "../components/Loading";
+import { Features } from "tailwindcss";
+import PropertyFeatures from "../components/PropertyFeatures";
+import PropertyAmenities from "../components/PropertyAmenities";
+import ListingType from "../components/ui/ListingType";
+import PropertyStatus from "../components/ui/PropertyStatus";
+import PropertyDate from "../components/ui/PropertyDate";
 
 const Property = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [property, setProperty] = useState([]);
   const [propertyImages, setPropertyImages] = useState([]);
+  const [features, setFeatures] = useState([]);
+  const [amenities, setAmenities] = useState([]);
+
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function getProperty() {
       try {
         const data = await fetchProperty(id);
+
         let parsedPhotos = data.photos ? JSON.parse(data.photos) : [];
-        parsedPhotos = parsedPhotos.map(photo =>{
-              return `http://localhost/estate-management-api/uploads/properties/${photo}`;
-        })
-        
+        parsedPhotos = parsedPhotos.map((photo) => {
+          return `http://localhost/estate-management-api/uploads/properties/${photo}`;
+        });
+
+        const features = data.features ? JSON.parse(data.features) : [];
+        const amenities = data.amenities ? JSON.parse(data.amenities) : [];
+        setFeatures(features);
+        setAmenities(amenities);
+
         setProperty(data);
         setPropertyImages(parsedPhotos);
         return;
@@ -36,15 +51,19 @@ const Property = () => {
     getProperty();
   }, [id]);
 
-  if (loading)
-    return (
-      <Loading />
-    );
+  if (loading) return <Loading />;
 
   if (!property)
     return (
       <div>
         <NotFound />
+      </div>
+    );
+
+  if (error)
+    return (
+      <div>
+        <h1>Opps something went wrong: {error}</h1>
       </div>
     );
 
@@ -65,6 +84,14 @@ const Property = () => {
               {formatPrice(property.price)}
             </p>
           </div>
+
+          {/* listing details */}
+
+          <div className="flex flex-wrap gap-4 mb-stack-md border-y border-primary-dark/10 py-4">
+              <ListingType type={property.listing_type} />
+              <PropertyStatus staus={property.statis} />
+              <PropertyDate date={property.created_at} />
+          </div>
           <button className="w-full bg-copper text-white py-5 rounded-soft font-subheading text-subheading tracking-[0.1em] hover:brightness-110 transition-all shadow-lg mb-stack-lg">
             SCHEDULE PRIVATE VIEWING
           </button>
@@ -73,71 +100,23 @@ const Property = () => {
               {property.description}
             </p>
           </div>
-          <div className="mb-stack-lg">
-            <h3 className="font-headline-md text-primary-dark mb-6 border-b border-primary-dark/10 pb-2">
-              FEATURES
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-white/40 border border-primary-dark/5">
-                <span
-                  className="material-symbols-outlined text-copper mb-2"
-                  data-icon="bed"
-                >
-                  bed
-                </span>
-                <p className="font-label-sm text-[10px] text-primary-dark/60 uppercase">
-                  Bedrooms
-                </p>
-                <p className="font-headline-md text-xl">5 En-suites</p>
-              </div>
-              <div className="p-4 bg-white/40 border border-primary-dark/5">
-                <span
-                  className="material-symbols-outlined text-copper mb-2"
-                  data-icon="square_foot"
-                >
-                  square_foot
-                </span>
-                <p className="font-label-sm text-[10px] text-primary-dark/60 uppercase">
-                  Living Space
-                </p>
-                <p className="font-headline-md text-xl">8,400 SQ FT</p>
-              </div>
-            </div>
-          </div>
-          <div className="mb-stack-lg">
-            <h3 className="font-headline-md text-primary-dark mb-6 border-b border-primary-dark/10 pb-2">
-              AMENITIES
-            </h3>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3 text-primary-dark/80 font-body-md">
-                <span
-                  className="material-symbols-outlined text-copper text-lg"
-                  data-icon="check_circle"
-                >
-                  check_circle
-                </span>
-                Custom Wine Cellar (1,200 bottles)
-              </li>
-              <li className="flex items-center gap-3 text-primary-dark/80 font-body-md">
-                <span
-                  className="material-symbols-outlined text-copper text-lg"
-                  data-icon="check_circle"
-                >
-                  check_circle
-                </span>
-                Heated Limestone Terrace
-              </li>
-              <li className="flex items-center gap-3 text-primary-dark/80 font-body-md">
-                <span
-                  className="material-symbols-outlined text-copper text-lg"
-                  data-icon="check_circle"
-                >
-                  check_circle
-                </span>
-                Private Wellness Wing
-              </li>
-            </ul>
-          </div>
+
+          {features.length > 0 ? (
+            <PropertyFeatures features={features} />
+          ) : (
+            <p className="text-sm text-primary-dark/40 my-10">
+              No features specified for this property.
+            </p>
+          )}
+
+           {amenities.length > 0 ? (
+            <PropertyAmenities amenities={amenities} />
+          ) : (
+            <p className="text-sm text-primary-dark/40 my-10">
+              No amenities specified for this property.
+            </p>
+          )}
+
         </div>
       </section>
 

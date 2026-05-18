@@ -8,6 +8,9 @@ import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import { PropertiesProvider } from "./contexts/PropertiesContext";
 import PropertiesPage from "./pages/PropertiesPage";
+import ProtectedRoute from "./components/auth/ProtectRoute";
+import UserLayout from "./layouts/UserLayout";
+import Dashboard from "./pages/auth/Dashboard";
 
 function App() {
   return (
@@ -21,6 +24,16 @@ function App() {
               <Route path="/properties" element={<PropertiesPage />} />
               <Route path="about" element={<About />} />
               <Route path="*" element={<NotFound />} />
+            </Route>
+
+            <Route
+              element={
+                <ProtectedRoute>
+                  <UserLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="user/dashboard" element={<Dashboard />} />
             </Route>
           </Routes>
         </BrowserRouter>
