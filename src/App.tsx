@@ -11,33 +11,38 @@ import PropertiesPage from "./pages/PropertiesPage";
 import ProtectedRoute from "./components/auth/ProtectRoute";
 import UserLayout from "./layouts/UserLayout";
 import Dashboard from "./pages/auth/Dashboard";
+import { AuthProvider } from "./contexts/auth/authContext";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <AppProvider>
-      <PropertiesProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<Home />} />
-              <Route path="/properties/:id" element={<Property />} />
-              <Route path="/properties" element={<PropertiesPage />} />
-              <Route path="about" element={<About />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
+      <AuthProvider>
+        <PropertiesProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<Home />} />
+                <Route path="/properties/:id" element={<Property />} />
+                <Route path="/properties" element={<PropertiesPage />} />
+                <Route path="/auth/login" element={<Login />} />
+                <Route path="about" element={<About />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
 
-            <Route
-              element={
-                <ProtectedRoute>
-                  <UserLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="user/dashboard" element={<Dashboard />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </PropertiesProvider>
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <UserLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="user/dashboard" element={<Dashboard />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </PropertiesProvider>
+      </AuthProvider>
     </AppProvider>
   );
 }

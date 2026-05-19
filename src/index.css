@@ -213,3 +213,37 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #c5a059;
 }
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+
+  25% {
+    transform: translateY(-40px) translateX(20px);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: translateY(-80px) translateX(-20px);
+    opacity: 0.3;
+  }
+
+  75% {
+    transform: translateY(-40px) translateX(15px);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+}
+
+.particle {
+  animation-name: floatParticle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
