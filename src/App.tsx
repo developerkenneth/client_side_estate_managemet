@@ -10,9 +10,9 @@ import { PropertiesProvider } from "./contexts/PropertiesContext";
 import PropertiesPage from "./pages/PropertiesPage";
 import ProtectedRoute from "./components/auth/ProtectRoute";
 import UserLayout from "./layouts/UserLayout";
-import Dashboard from "./pages/auth/Dashboard";
+import Dashboard from "./pages/users/Dashboard";
 import { AuthProvider } from "./contexts/auth/authContext";
-import Login from "./pages/Login";
+import Login from "./pages/auth/Login";
 
 function App() {
   return (

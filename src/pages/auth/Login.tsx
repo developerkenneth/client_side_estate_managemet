@@ -1,11 +1,47 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ParticleBackground from "../components/ParticleBackground";
-import FormInputText from "../components/ui/FormInputText";
-import FormInputPassword from "../components/ui/FormInputPassword";
+import ParticleBackground from "../../components/ParticleBackground";
+import FormInputText from "../../components/ui/FormInputText";
+import FormInputPassword from "../../components/ui/FormInputPassword";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "../../schemas/authSchemas";
+import { useAuth } from "../../contexts/auth/authContext";
+import axios from "axios";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const { login, loading } = useAuth();
+
+  async function handleForm(data) {
+    //  login user
+
+    try {
+      const response = await axios.post(
+        "http://localhost/estate-management-api/api/auth/login",
+        data,
+      );
+      console.log(data);
+    } catch (err) {
+      console.error("failed request");
+      if (err.response) {
+        console.log(err.response.data);
+      }
+    }
+  }
 
   return (
     <>
@@ -38,22 +74,31 @@ const Login = () => {
             <p className="mt-2 text-sm text-gray-400">Access your dashboard</p>
           </div>
 
-          <form className="space-y-8">
+          <form className="space-y-8" onSubmit={handleSubmit(handleForm)}>
             {/* Email */}
             {
               <FormInputText
-                error={false}
+                inputName={"email"}
+                register={register}
+                error={errors.email?.message}
                 type={"email"}
                 title={"Email"}
                 placeholder={"Enter your email"}
               />
             }
 
-            {/* Password */
-            
-            <FormInputPassword showPassword={showPassword} setShowPassword={setShowPassword((prev)=> !prev)} value={} 
+            {
+              /* Password */
+
+              <FormInputPassword
+                showPassword={showPassword}
+                setShowPassword={() => setShowPassword((prev) => !prev)}
+                register={register}
+                inputName={"password"}
+                label={"Password"}
+                error={errors.password?.message}
+              />
             }
-         
 
             {/* Forgot */}
             <div className="flex justify-end">
@@ -68,9 +113,10 @@ const Login = () => {
             {/* Button */}
             <button
               type="submit"
+              disabled={isSubmitting}
               className="w-full bg-yellow-400 py-5 text-sm  mb-6 font-semibold uppercase tracking-[0.2em] text-[#061417] shadow-lg shadow-yellow-400/10 transition-all duration-500 hover:bg-white active:scale-[0.98]"
             >
-              Login
+              {isSubmitting ? "please wait..." : "Login"}
             </button>
           </form>
         </section>
