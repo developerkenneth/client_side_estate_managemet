@@ -121,7 +121,10 @@ body {
   --color-background: #f4f1ea;
   --color-primary: #1a2421;
   --color-on-primary: #f4f1ea;
+  --color-primary-fixed-dim :#bec9c4;
+  --color-on-primary-fixed-variant:#3e4945;
   --color-primary-container: #1a2421;
+  --color-primary-fixed : #dae5e0;
   /* --- Border Radius --- */
   --radius: 0.25rem; /* DEFAULT */
   --radius-lg: 0.5rem;
@@ -213,6 +216,8 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #c5a059;
 }
+
+
 
 @keyframes floatParticle {
   0% {

@@ -37,7 +37,7 @@ function App() {
                   </ProtectedRoute>
                 }
               >
-                <Route path="user/dashboard" element={<Dashboard />} />
+                <Route path="/user/dashboard" element={<Dashboard />} />
               </Route>
             </Routes>
           </BrowserRouter>

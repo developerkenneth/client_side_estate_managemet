@@ -1,4 +1,7 @@
+import LoggoutBtn from "./LoggoutBtn";
+
 export default function AuthHeader() {
+
   return (
     <header className="fixed top-0 w-full h-[70px] z-50 bg-primary-dark border-b border-white/10">
       <div className="flex justify-between items-center px-4 md:px-margin-edge w-full max-w-container-max mx-auto h-full">
@@ -19,9 +22,7 @@ export default function AuthHeader() {
             </span>
             <span className="nav-link text-[10px]">ALERTS (0)</span>
           </div>
-          <button className="nav-link px-4 py-2 border border-accent-gold text-accent-gold text-[10px] hover:bg-accent-gold hover:text-white transition-all">
-            LOG OUT
-          </button>
+         <LoggoutBtn />
         </nav>
       </div>
     </header>

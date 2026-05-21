@@ -10,3 +10,4 @@ export function isEmail(email: string): boolean {
   const regEx = new RegExp(expression);
   return regEx.test(email);
 }
+

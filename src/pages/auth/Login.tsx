@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ParticleBackground from "../../components/ParticleBackground";
 import FormInputText from "../../components/ui/FormInputText";
 import FormInputPassword from "../../components/ui/FormInputPassword";
@@ -13,6 +13,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitting, errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
@@ -24,21 +25,40 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { login, loading } = useAuth();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [loginError, setLoginError] = useState("");
 
   async function handleForm(data) {
     //  login user
-
     try {
       const response = await axios.post(
         "http://localhost/estate-management-api/api/auth/login",
         data,
       );
-      console.log(data);
+      const responseData = response.data;
+
+      const token = responseData?.tokens?.access_token;
+
+      const userData = responseData?.data;
+
+      if (!token || !userData) {
+        setLoginError("Invalid server response");
+        return;
+      }
+
+      login(userData, token);
+      navigate("/user/dashboard", {
+        replace: true,
+      });
+      reset();
     } catch (err) {
       console.error("failed request");
       if (err.response) {
-        console.log(err.response.data);
+        const message =
+          err?.response?.data?.message || "Invalid email or password";
+        setLoginError(message);
+        // stopped here
       }
     }
   }
@@ -75,6 +95,14 @@ const Login = () => {
           </div>
 
           <form className="space-y-8" onSubmit={handleSubmit(handleForm)}>
+            <div className="mb-6 animate-fade-in">
+              {loginError && (
+                <p className="font-body-md text-[#EF4444] text-sm tracking-wide italic text-center">
+                  {loginError}
+                </p>
+              )}
+            </div>
+
             {/* Email */}
             {
               <FormInputText
