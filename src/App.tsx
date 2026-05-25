@@ -14,6 +14,7 @@ import Dashboard from "./pages/users/Dashboard";
 import { AuthProvider } from "./contexts/auth/authContext";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import UserProperties from "./pages/users/userProperties";
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
                 }
               >
                 <Route path="/user/dashboard" element={<Dashboard />} />
+                <Route path="/user/properties" element={<UserProperties />} />
+
               </Route>
             </Routes>
           </BrowserRouter>

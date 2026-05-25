@@ -14,12 +14,9 @@ export default function Dashboard() {
           </div>
           {/* <!-- Summary Cards --> */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            <div className="bg-white p-8 border-l-4 border-primary-dark shadow-sm">
-              <p className="nav-link text-[10px] text-secondary mb-2 uppercase">
-                Active Assets
-              </p>
-              <h3 className="font-display text-[32px] text-primary-dark">2</h3>
-            </div>
+
+            {/* cards */}
+            
             <div className="bg-white p-8 border-l-4 border-primary-dark shadow-sm">
               <p className="nav-link text-[10px] text-secondary mb-2 uppercase">
                 Total Value
