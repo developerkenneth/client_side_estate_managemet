@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerSchema } from "../../schemas/authSchemas";
 import { useState } from "react";
 import FormInputText from "../../components/ui/FormInputText";
@@ -10,6 +10,7 @@ import TermsCheckbox from "../../components/ui/TermsCheckBox";
 import { toast } from "react-toastify";
 import Notify from "../../components/ui/Notify";
 import axios from "axios";
+import { useAuth } from "../../contexts/auth/authContext";
 
 export default function Register() {
   const {
@@ -28,9 +29,10 @@ export default function Register() {
     },
   });
 
-
   const [showPassword, setShowPassword] = useState(false);
   const [registrationError, setRegistrationError] = useState("");
+  const { login, setRefresh } = useAuth();
+  const navigate = useNavigate();
 
   async function handleRegistration(data) {
     const { confirmPassword, terms, ...userData } = data;
@@ -46,16 +48,34 @@ export default function Register() {
           },
         },
       );
-      const newUSer = response.data;
-      console.log(newUSer);
-      toast.success("registration has been completed successfully");
-      
 
+      const registrationData = response.data;
+
+      // get tokens from the server
+      const tokens = registrationData.tokens;
+      const user = registrationData.data;
+
+      // login user
+      login(user, tokens.access_token);
+
+      // set refresh token
+      setRefresh(tokens.refresh_token);
+      toast.success("registration has been completed successfully");
+
+      // reset form
+      reset();
+
+      // redirect user
+      navigate("/user/dashboard");
     } catch (err) {
       console.error("request failed");
+
       if (err.response?.data?.message) {
-        console.log(err.response.data.message);
+        setRegistrationError(err.response.data.message);
+        return;
       }
+      setRegistrationError("oops something went wrong please try again");
+      return;
     }
   }
   return (
@@ -205,8 +225,6 @@ export default function Register() {
             </button>
           </form>
         </section>
-
-
 
         {/* Footer */}
         <div className="relative z-10 pb-6 text-center">

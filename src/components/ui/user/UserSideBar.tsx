@@ -72,7 +72,7 @@ export default function UserSideBar() {
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
           <span className="text-[10px] nav-link text-white/40">
-            {user.role.toUpperCase()} ONLINE
+            {user.role?.toUpperCase()} ONLINE
           </span>
         </div>
       </div>
