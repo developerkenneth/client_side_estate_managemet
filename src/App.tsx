@@ -13,6 +13,7 @@ import UserLayout from "./layouts/UserLayout";
 import Dashboard from "./pages/users/Dashboard";
 import { AuthProvider } from "./contexts/auth/authContext";
 import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/properties/:id" element={<Property />} />
                 <Route path="/properties" element={<PropertiesPage />} />
                 <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/register" element={<Register />} />
                 <Route path="about" element={<About />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

@@ -22,7 +22,7 @@ export default function FormInputPassword({ showPassword, setShowPassword, label
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
 
-              <p className="mt-2 text-xs text-red-400">{error}</p>
+              {error &&  <p className="mt-2 text-xs text-red-400">{error}</p> }
             </div>
   );
 }
