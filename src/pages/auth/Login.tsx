@@ -25,9 +25,15 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
+
+  // redirect user to dashboard if already logged in
+  if (isAuthenticated) {
+    navigate("/user/dashboard");
+  }
 
   async function handleForm(data) {
     //  login user
@@ -38,16 +44,16 @@ const Login = () => {
       );
       const responseData = response.data;
 
-      const token = responseData?.tokens?.access_token;
+      const tokens = responseData?.tokens;
 
       const userData = responseData?.data;
 
-      if (!token || !userData) {
+      if (!tokens || !userData) {
         setLoginError("Invalid server response");
         return;
       }
 
-      login(userData, token);
+      login(userData, JSON.stringify(tokens));
       navigate("/user/dashboard", {
         replace: true,
       });

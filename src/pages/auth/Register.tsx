@@ -56,10 +56,7 @@ export default function Register() {
       const user = registrationData.data;
 
       // login user
-      login(user, tokens.access_token);
-
-      // set refresh token
-      setRefresh(tokens.refresh_token);
+      login(user, JSON.stringify(tokens));
       toast.success("registration has been completed successfully");
 
       // reset form
