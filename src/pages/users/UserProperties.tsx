@@ -19,6 +19,7 @@ export default function UserProperties() {
       } catch (err) {
         console.error(err.response?.data);
         if (err.response.data) {
+            setError(err.response.data.)
         }
       } finally {
       }
